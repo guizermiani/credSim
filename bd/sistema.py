@@ -1,18 +1,14 @@
 
-from usuario import menu_usuario, login
-from vendas import menu_vendas
-
+from usuario import menu_usuario, login, listar_usuario, inserir_usuario
+from banco import inserir_banco, listar_banco, menu_banco
 from conexao import conecta_db
 
 def menu_principal():
     print("|------------------------------------------|")
     print("|    Menu -> Programa                      |")
     print("|------------------------------------------|")
-    print("|        1  -  Cliente                     |")
-    print("|        2  -  Categoria                   |")
-    print("|        3  -  Produto                     |")
-    print("|        4  -  Usuário                     |")
-    print("|        5  -  Vendas                      |")
+    print("|        1  -  Usuário                     |")
+    print("|        2  -  Banco                       |")
     print("|        6  -  Sair do Sistema             |")
     print("|------------------------------------------|")
 
@@ -20,15 +16,9 @@ def menu_principal():
         opcao = input("Escolha uma opção:  ")
 
         if opcao == "1":
-            menu_cliente()
+            menu_usuario()
         elif opcao == "2":
-            menu_categoria("Categoria")
-        elif opcao == "3":
-            menu_produto("Produto")
-        elif opcao == "4":
-            menu_usuario("Usuario")
-        elif opcao == "5":
-            menu_vendas()
+            menu_banco(conexao)
         elif opcao == "6":
             print("Sair do sistema")
             break

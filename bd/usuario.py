@@ -1,33 +1,19 @@
 from conexao import conecta_db
 from menu import opcoes_menu_resumido
 
-def menu_usuario(titulo):
-    opcoes_menu_resumido(titulo)
-    while True: 
-        opcao = input("Escolha uma opção:  ")
+def menu_usuario():
+    opcoes_menu_resumido("Usuário")
+    while True:
+        opcao = input("Escolha uma opção: ")
         conexao = conecta_db()
 
         if opcao == "1":
             listar_usuario(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "2":
-            listar_usuario(conexao)
-            consultar_usuario_por_id(conexao)
-            opcoes_menu_resumido(titulo)
+            opcoes_menu_resumido("Usuário")
         elif opcao == "3":
             inserir_usuario(conexao)
             listar_usuario(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "4":
-            listar_usuario(conexao)
-            atualizar_usuario(conexao)
-            listar_usuario(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "5":
-            listar_usuario(conexao)
-            deletar_usuario(conexao)
-            listar_usuario(conexao)
-            opcoes_menu_resumido(titulo)
+            opcoes_menu_resumido("Usuário")
         elif opcao == "6":
             print("Sair")
             break
@@ -36,87 +22,89 @@ def menu_usuario(titulo):
 
 def login(conexao) -> bool:
     print("-----------------------------------------")
-    login = input("Digite o Login: ")
+    cpf   = input("Digite o CPF: ")
     senha = input("Digite a Senha: ")
 
     cursor = conexao.cursor()
-    sql_listar = """select id, login, admin from usuario          
-                    where login = %s and senha = %s
-                 """
-    dados = (login, senha)
-    cursor.execute(sql_listar, dados)
+    cursor.execute(
+        "select idUsuario, nome from usuario where cpf = %s and senha = %s",
+        (cpf, senha)
+    )
     registro = cursor.fetchone()
 
     if registro is None:
-        print("Usuário e Senha Inválidos")
+        print("CPF ou Senha inválidos")
         return False
     else:
-        admin = registro[2]
+        print(f"Bem-vindo, {registro[1]}!")
         return True
-
-
 
 def listar_usuario(conexao):
     cursor = conexao.cursor()
-    sql_listar = """select id, login, admin from usuario          
-                    order by id asc
-                 """
-    
-    cursor.execute(sql_listar)
+    cursor.execute("select idUsuario, cpf, nome, email, rendaMensal from usuario order by idUsuario asc")
     registros = cursor.fetchall()
     print("|----------------------------------------|")
-    for registro in registros:
-        print(f"| ID: {registro[0]}  - Login: {registro[1]} - Admin: {registro[2]}  ")
+    for r in registros:
+        print(f"| ID: {r[0]} | CPF: {r[1]} | Nome: {r[2]} | E-mail: {r[3]} | Renda: {r[4]}")
     print("|----------------------------------------|")
-
 
 def consultar_usuario_por_id(conexao):
     id = input("Digite o ID: ")
     cursor = conexao.cursor()
-    cursor.execute("select id,login,admin, from usuario where id = " + id)
+    cursor.execute(
+        "select idUsuario, cpf, nome, email, senha, rendaMensal from usuario where idUsuario = %s",
+        (id,)
+    )
     registro = cursor.fetchone()
 
     if registro is None:
-        print("Usuário não encontrado:")
+        print("Usuário não encontrado")
     else:
-        print(f"| ID        ..: {registro[0]} ")
-        print(f"| Login       : {registro[1]} ")
-        print(f"| Admin       : {registro[2]} ")
-       
+        print(f"| ID          : {registro[0]}")
+        print(f"| CPF         : {registro[1]}")
+        print(f"| Nome        : {registro[2]}")
+        print(f"| E-mail      : {registro[3]}")
+        print(f"| Senha       : {registro[4]}")
+        print(f"| Renda Mensal: {registro[5]}")
 
 def inserir_usuario(conexao):
-    print("Inserindo o Usuário ..: ")
+    print("Inserindo o Usuário: ")
     cursor = conexao.cursor()
 
-    login = input("Login :")
-    senha = input("Senha :")
-    admin = input("Admin: ")
+    cpf         = input("CPF: ")
+    nome        = input("Nome: ")
+    email       = input("E-mail: ")
+    senha       = input("Senha: ")
+    rendaMensal = float(input("Renda Mensal: "))
 
-    sql_insert = "insert into usuario (login,senha,admin) values ( %s, %s, %s )"
-    dados = (login,senha,admin)
-
-    cursor.execute(sql_insert, dados)
+    cursor.execute(
+        "insert into usuario (cpf, nome, email, senha, rendaMensal) values (%s, %s, %s, %s, %s)",
+        (cpf, nome, email, senha, rendaMensal)
+    )
     conexao.commit()
+    print("Usuário inserido com sucesso!")
 
 def atualizar_usuario(conexao):
     print("Alterando dados do Usuário")
     cursor = conexao.cursor()
 
-    id    = input("Digite o ID : ")
-    login = input("Login: ")
-    senha = input("Senha: ")
-    admin = input("Admin: ")
+    id          = input("Digite o ID: ")
+    nome        = input("Nome: ")
+    email       = input("E-mail: ")
+    senha       = input("Senha: ")
+    rendaMensal = float(input("Renda Mensal: "))
 
-    sql_update = "update usuario set login = %s, senha = %s, admin = %s where id = %s"
-    dados = (login,senha,admin,id)
-
-    cursor.execute(sql_update,dados)
+    cursor.execute(
+        "update usuario set nome=%s, email=%s, senha=%s, rendaMensal=%s where idUsuario=%s",
+        (nome, email, senha, rendaMensal, id)
+    )
     conexao.commit()
+    print("Usuário atualizado com sucesso!")
 
 def deletar_usuario(conexao):
     print("Deletando Usuário")
     cursor = conexao.cursor()
-    id   = input("Digite o ID : ")
-    sql_delete = "delete from usuario where id = "+ id
-    cursor.execute(sql_delete)
+    id = input("Digite o ID: ")
+    cursor.execute("delete from usuario where idUsuario = %s", (id,))
     conexao.commit()
+    print("Usuário deletado com sucesso!")
