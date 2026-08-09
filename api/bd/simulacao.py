@@ -1,4 +1,4 @@
-from conexao import conecta_db
+from api.conexao import conecta_db
 from menu import opcoes_menu_resumido
 from datetime import date
 

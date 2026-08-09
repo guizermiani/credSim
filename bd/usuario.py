@@ -41,18 +41,18 @@ def login(conexao) -> bool:
 
 def listar_usuario(conexao):
     cursor = conexao.cursor()
-    cursor.execute("select idUsuario, cpf, nome, email, rendaMensal from usuario order by idUsuario asc")
+    cursor.execute("select idUsuario, cpf, nome, email from usuario order by idUsuario asc")
     registros = cursor.fetchall()
     print("|----------------------------------------|")
     for r in registros:
-        print(f"| ID: {r[0]} | CPF: {r[1]} | Nome: {r[2]} | E-mail: {r[3]} | Renda: {r[4]}")
+        print(f"| ID: {r[0]} | CPF: {r[1]} | Nome: {r[2]} | E-mail: {r[3]}")
     print("|----------------------------------------|")
 
 def consultar_usuario_por_id(conexao):
     id = input("Digite o ID: ")
     cursor = conexao.cursor()
     cursor.execute(
-        "select idUsuario, cpf, nome, email, senha, rendaMensal from usuario where idUsuario = %s",
+        "select idUsuario, cpf, nome, email, senha from usuario where idUsuario = %s",
         (id,)
     )
     registro = cursor.fetchone()
@@ -65,7 +65,6 @@ def consultar_usuario_por_id(conexao):
         print(f"| Nome        : {registro[2]}")
         print(f"| E-mail      : {registro[3]}")
         print(f"| Senha       : {registro[4]}")
-        print(f"| Renda Mensal: {registro[5]}")
 
 def inserir_usuario(conexao):
     print("Inserindo o Usuário: ")
@@ -75,11 +74,10 @@ def inserir_usuario(conexao):
     nome = input("Nome: ")
     email = input("E-mail: ")
     senha = input("Senha: ")
-    rendaMensal = float(input("Renda Mensal: "))
 
     cursor.execute(
-        "insert into usuario (cpf, nome, email, senha, rendaMensal) values (%s, %s, %s, %s, %s)",
-        (cpf, nome, email, senha, rendaMensal)
+        "insert into usuario (cpf, nome, email, senha) values (%s, %s, %s, %s)",
+        (cpf, nome, email, senha)
     )
     conexao.commit()
     print("Usuário inserido com sucesso!")
@@ -92,11 +90,10 @@ def atualizar_usuario(conexao):
     nome = input("Nome: ")
     email = input("E-mail: ")
     senha = input("Senha: ")
-    rendaMensal = float(input("Renda Mensal: "))
 
     cursor.execute(
-        "update usuario set nome=%s, email=%s, senha=%s, rendaMensal=%s where idUsuario=%s",
-        (nome, email, senha, rendaMensal, id)
+        "update usuario set nome=%s, email=%s, senha=%s where idUsuario=%s",
+        (nome, email, senha, id)
     )
     conexao.commit()
     print("Usuário atualizado com sucesso!")

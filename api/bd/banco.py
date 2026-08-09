@@ -1,33 +1,4 @@
-from conexao import conecta_db
-from menu import opcoes_menu_resumido
-
-def menu_banco(titulo):
-    opcoes_menu_resumido(titulo)
-    while True:
-        opcao = input("Escolha uma opção: ")
-        conexao = conecta_db()
-        if opcao == "1":
-            listar_banco(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "2":
-            consultar_banco_por_id(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "3":
-            inserir_banco(conexao)
-            listar_banco(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "4":
-            atualizar_banco(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "5":
-            deletar_banco(conexao)
-            opcoes_menu_resumido(titulo)
-        elif opcao == "6":
-            print("Sair")
-            break
-        else:
-            print("Opção inválida, tente novamente")
-
+from api.conexao import conecta_db
 
 def listar_banco(conexao):
     cursor = conexao.cursor()

@@ -1,4 +1,4 @@
-from conexao import conecta_db
+from api.conexao import conecta_db
 from simulacao import listar_simulacao, consultar_simulacao_por_id, inserir_simulacao, atualizar_simulacao, deletar_simulacao
 
 def gerar_relatorio_simulacoes(conexao):
