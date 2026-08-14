@@ -1,60 +1,65 @@
-from api.conexao import conecta_db
+from conexao import conecta_db
 
-def listar_banco(conexao):
+
+def listar_bancos(conexao):
     cursor = conexao.cursor()
-    cursor.execute("select idBanco, nome, taxaBase from banco order by idBanco asc")
+    cursor.execute("""
+        select idBanco, nome, taxaPessoal, taxaConsignado, taxaImobiliario
+        from banco
+        order by idBanco asc
+    """)
     registros = cursor.fetchall()
-    print("|----------------------------------------|")
+    resultado = []
     for r in registros:
-        print(f"| ID: {r[0]} | Nome: {r[1]} | Taxa Base: {r[2]}")
-    print("|----------------------------------------|")
+        resultado.append({
+            "idBanco":         r[0],
+            "nome":            r[1],
+            "taxaPessoal":     r[2],
+            "taxaConsignado":  r[3],
+            "taxaImobiliario": r[4]
+        })
+    return resultado
 
 
-def consultar_banco_por_id(conexao):
-    id = input("Digite o ID: ")
+def consultar_banco_por_id(conexao, id):
     cursor = conexao.cursor()
-    cursor.execute("select idBanco, nome, taxaBase from banco where idBanco = %s", (id,))
-    registro = cursor.fetchone()
-    if registro is None:
-        print("Banco não encontrado")
-    else:
-        print(f"| ID        : {registro[0]}")
-        print(f"| Nome      : {registro[1]}")
-        print(f"| Taxa Base : {registro[2]}")
+    cursor.execute("""
+        select idBanco, nome, taxaPessoal, taxaConsignado, taxaImobiliario
+        from banco
+        where idBanco = %s
+    """, (id,))
+    r = cursor.fetchone()
+    if r is None:
+        return None
+    return {
+        "idBanco":         r[0],
+        "nome":            r[1],
+        "taxaPessoal":     r[2],
+        "taxaConsignado":  r[3],
+        "taxaImobiliario": r[4]
+    }
 
 
-def inserir_banco(conexao):
-    print("Inserindo o Banco: ")
+def inserir_banco(conexao, nome, taxaPessoal, taxaConsignado, taxaImobiliario):
     cursor = conexao.cursor()
-
-    nome     = input("Nome do Banco: ")
-    taxaBase = float(input("Taxa base para crédito: "))
-
-    cursor.execute("insert into banco (nome, taxaBase) values (%s, %s)", (nome, taxaBase))
+    cursor.execute("""
+        insert into banco (nome, taxaPessoal, taxaConsignado, taxaImobiliario)
+        values (%s, %s, %s, %s)
+    """, (nome, taxaPessoal, taxaConsignado, taxaImobiliario))
     conexao.commit()
-    print("Banco inserido com sucesso!")
 
 
-def atualizar_banco(conexao):
-    print("Alterando dados do Banco")
+def atualizar_banco(conexao, id, nome, taxaPessoal, taxaConsignado, taxaImobiliario):
     cursor = conexao.cursor()
-
-    id = input("Digite o ID: ")
-    nome = input("Nome: ")
-    taxaBase = float(input("Taxa base: "))
-
-    cursor.execute(
-        "update banco set nome=%s, taxaBase=%s where idBanco=%s",
-        (nome, taxaBase, id)
-    )
+    cursor.execute("""
+        update banco
+        set nome=%s, taxaPessoal=%s, taxaConsignado=%s, taxaImobiliario=%s
+        where idBanco=%s
+    """, (nome, taxaPessoal, taxaConsignado, taxaImobiliario, id))
     conexao.commit()
-    print("Banco atualizado com sucesso!")
 
 
-def deletar_banco(conexao):
-    print("Deletando Banco")
+def deletar_banco(conexao, id):
     cursor = conexao.cursor()
-    id = input("Digite o ID: ")
     cursor.execute("delete from banco where idBanco = %s", (id,))
     conexao.commit()
-    print("Banco deletado com sucesso!")
