@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CredSim – Histórico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #1a7a4a; --green-light: #e8f5ee; --dark: #1a1f1e;
+      --border: #e0e0e0; --text-dark: #111; --text-muted: #666; --white: #fff;
+    }
+    body { font-family: 'Inter', sans-serif; background: #f5f5f5; min-height: 100vh; }
+
+    nav {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 56px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 10;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; color: var(--text-dark); text-decoration: none; }
+    .nav-logo-icon { width: 32px; height: 32px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .nav-logo-icon svg { stroke: white; }
+    .nav-right { display: flex; gap: 0.75rem; align-items: center; }
+    .btn-nav { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.875rem; font-weight: 500; cursor: pointer; color: var(--text-dark); transition: background 0.15s; }
+    .btn-nav:hover { background: #f0f0f0; }
+    .btn-nav-green { background: var(--green); color: white; border-color: var(--green); }
+    .btn-nav-green:hover { background: #155c38; }
+
+    .page { max-width: 900px; margin: 2.5rem auto; padding: 0 1.5rem; }
+
+    .page-header { margin-bottom: 1.75rem; }
+    .page-header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .page-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+    .vazio { text-align: center; padding: 4rem 1rem; color: var(--text-muted); }
+    .vazio svg { stroke: #ccc; margin-bottom: 1rem; }
+    .vazio p { font-size: 0.95rem; margin-bottom: 1rem; }
+    .vazio a { color: var(--green); font-weight: 600; text-decoration: none; }
+
+    .simulacao-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: center;
+    }
+    .sim-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .sim-tipo {
+      background: var(--green-light);
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+    .sim-data { font-size: 0.8rem; color: var(--text-muted); }
+    .sim-banco { font-size: 0.8rem; color: var(--text-muted); }
+
+    .sim-valores {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .sim-val-item .label { font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.15rem; }
+    .sim-val-item .val { font-size: 0.95rem; font-weight: 700; color: var(--text-dark); }
+    .sim-val-item .val.green { color: var(--green); }
+
+    .sim-acoes { display: flex; flex-direction: column; gap: 0.5rem; }
+    .btn-pdf {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: var(--green); color: white; border: none;
+      border-radius: 8px; padding: 0.55rem 0.9rem;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: background 0.15s;
+    }
+    .btn-pdf:hover { background: #155c38; }
+    .btn-pdf svg { stroke: white; flex-shrink: 0; }
+    .btn-del {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: none; color: #dc2626; border: 1px solid #fca5a5;
+      border-radius: 8px; padding: 0.55rem 0.9rem;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: background 0.15s;
+    }
+    .btn-del:hover { background: #fee2e2; }
+    .btn-del svg { stroke: #dc2626; flex-shrink: 0; }
+
+    .comprom-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 5px;
+      margin-left: 0.5rem;
+    }
+    .comprom-ok   { background: #dcfce7; color: #15803d; }
+    .comprom-warn { background: #fef3c7; color: #b45309; }
+    .comprom-danger { background: #fee2e2; color: #b91c1c; }
+
+    @media (max-width: 600px) {
+      .simulacao-card { grid-template-columns: 1fr; }
+      .sim-acoes { flex-direction: row; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="dashboard.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
+      </svg>
+    </div>
+    CredSim
+  </a>
+  <div class="nav-right">
+    <a href="simulacao.html" class="btn-nav btn-nav-green">Nova simulação</a>
+    <button class="btn-nav" onclick="sair()">Sair</button>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="page-header">
+    <h1>Histórico de simulações</h1>
+    <p>Todas as suas simulações salvas.</p>
+  </div>
+  <div id="lista"></div>
+</div>
+
+<script>
+  const API = 'http://127.0.0.1:5000';
+
+  function checarLogin() {
+    if (!localStorage.getItem('token')) window.location.href = 'index.html';
+  }
+
+  function fmt(n) {
+    return 'R$ ' + parseFloat(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function compromClasse(pct) {
+    if (pct <= 30) return 'comprom-ok';
+    if (pct <= 50) return 'comprom-warn';
+    return 'comprom-danger';
+  }
+
+  async function carregarHistorico() {
+    const token = localStorage.getItem('token');
+    const lista = document.getElementById('lista');
+    try {
+      const res = await fetch(`${API}/simulacoes/`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const sims = await res.json();
+
+      if (!sims.length) {
+        lista.innerHTML = `
+          <div class="vazio">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <p>Você ainda não tem simulações salvas.</p>
+            <a href="simulacao.html">Fazer primeira simulação →</a>
+          </div>`;
+        return;
+      }
+
+      lista.innerHTML = '';
+      sims.forEach(s => {
+        const comprom = s.valorRenda > 0 ? (s.valorParcela / s.valorRenda) * 100 : 0;
+        const cls = compromClasse(comprom);
+
+        const card = document.createElement('div');
+        card.className = 'simulacao-card';
+        card.innerHTML = `
+          <div>
+            <div class="sim-header">
+              <span class="sim-tipo">${s.tipoCredito}</span>
+              <span class="sim-data">${new Date(s.dataSimulacao).toLocaleDateString('pt-BR')}</span>
+              <span class="sim-banco">${s.nomeBanco || ''}</span>
+              <span class="comprom-badge ${cls}">${comprom.toFixed(1)}% da renda</span>
+            </div>
+            <div class="sim-valores">
+              <div class="sim-val-item">
+                <div class="label">Parcela mensal</div>
+                <div class="val green">${fmt(s.valorParcela)}</div>
+              </div>
+              <div class="sim-val-item">
+                <div class="label">Valor solicitado</div>
+                <div class="val">${fmt(s.valorCredito)}</div>
+              </div>
+              <div class="sim-val-item">
+                <div class="label">Prazo</div>
+                <div class="val">${s.prazoMeses}x</div>
+              </div>
+              <div class="sim-val-item">
+                <div class="label">Taxa</div>
+                <div class="val">${s.taxaJuros}% a.m.</div>
+              </div>
+            </div>
+          </div>
+          <div class="sim-acoes">
+            <button class="btn-pdf" onclick="gerarPDF(${s.idSimulacao})">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/>
+              </svg>
+              Baixar PDF
+            </button>
+            <button class="btn-del" onclick="deletar(${s.idSimulacao}, this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+              </svg>
+              Excluir
+            </button>
+          </div>
+        `;
+        lista.appendChild(card);
+      });
+    } catch(e) {
+      lista.innerHTML = '<div style="color:#999;padding:2rem;">Erro ao carregar histórico.</div>';
+    }
+  }
+
+  function gerarPDF(idSimulacao) {
+    const token = localStorage.getItem('token');
+    window.open(`${API}/relatorios/pdf/${idSimulacao}?token=${token}`, '_blank');
+  }
+
+  async function deletar(id, btn) {
+    if (!confirm('Excluir esta simulação?')) return;
+    const token = localStorage.getItem('token');
+    try {
+      const res = await fetch(`${API}/simulacoes/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        btn.closest('.simulacao-card').remove();
+      }
+    } catch(e) {
+      alert('Erro ao excluir simulação.');
+    }
+  }
+
+  function sair() { localStorage.clear(); window.location.href = 'index.html'; }
+
+  checarLogin();
+  carregarHistorico();
+</script>
+</body>
+</html>

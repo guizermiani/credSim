@@ -11,9 +11,6 @@ def listar_usuario():
     conexao = conecta_db()
     return jsonify(listar_usuario_bd(conexao))
 
-
-
-
 @usuario_bp.route("/<int:id>", methods=["GET"])
 @jwt_required()
 def consultar_usuario(id):

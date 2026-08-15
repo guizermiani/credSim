@@ -191,20 +191,31 @@
     }
     .prazo-valor { font-weight: 700; font-size: 0.9rem; }
 
-    /* BANCO SELECT */
-    .select-banco {
+    /* BANCO FIXO (pré-selecionado) */
+    .banco-fixo {
       width: 100%;
-      border: 1.5px solid var(--border);
+      border: 1.5px solid var(--green);
       border-radius: 10px;
-      padding: 0.65rem 0.9rem;
-      font-size: 0.9rem;
-      font-family: inherit;
-      color: var(--text-dark);
-      background: white;
-      outline: none;
-      cursor: pointer;
+      padding: 0.75rem 1rem;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .select-banco:focus { border-color: var(--green); }
+    .banco-fixo-nome {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+    .banco-fixo-trocar {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--green);
+      text-decoration: none;
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+    .banco-fixo-trocar:hover { text-decoration: underline; }
 
     /* PAINEL DIREITO */
     .panel-right {
@@ -339,9 +350,10 @@
 
     <div class="label">Banco</div>
     <div class="campo">
-      <select class="select-banco" id="selectBanco" onchange="onBancoChange()">
-        <option value="">Carregando bancos...</option>
-      </select>
+      <div class="banco-fixo" id="bancoFixo">
+        <div class="banco-fixo-nome" id="bancoNome">Carregando banco...</div>
+        <a href="bancos.html" class="banco-fixo-trocar">Trocar banco</a>
+      </div>
     </div>
 
     <div class="label">Modalidade de crédito</div>
@@ -441,37 +453,23 @@
 
 <script>
   const API = 'http://127.0.0.1:5000';
-  let bancos = [];
   let bancoAtual = null;
   let tipoAtual = 'Pessoal';
   let taxaAtual = null;
 
-  // CARREGAR BANCOS
-  async function carregarBancos() {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`${API}/bancos/`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      bancos = await res.json();
-      const sel = document.getElementById('selectBanco');
-      sel.innerHTML = '<option value="">Selecione um banco</option>';
-      bancos.forEach(b => {
-        sel.innerHTML += `<option value="${b.idBanco}">${b.nome}</option>`;
-      });
-    } catch (e) {
-      console.error('Erro ao carregar bancos:', e);
+  // CARREGAR BANCO SELECIONADO (vindo de dashboard.html ou bancos.html)
+  function carregarBancoSelecionado() {
+    const salvo = localStorage.getItem('bancoSelecionado');
+    if (!salvo) {
+      alert('Selecione um banco antes de simular.');
+      window.location.href = 'bancos.html';
+      return;
     }
-  }
-
-  function onBancoChange() {
-    const id = parseInt(document.getElementById('selectBanco').value);
-    bancoAtual = bancos.find(b => b.idBanco === id) || null;
-    if (bancoAtual) {
-      document.getElementById('taxa-pessoal').textContent    = `${bancoAtual.taxaPessoal}% a.m.`;
-      document.getElementById('taxa-consignado').textContent = `${bancoAtual.taxaConsignado}% a.m.`;
-      document.getElementById('taxa-imobiliario').textContent= `${bancoAtual.taxaImobiliario}% a.m.`;
-    }
+    bancoAtual = JSON.parse(salvo);
+    document.getElementById('bancoNome').textContent = bancoAtual.nome;
+    document.getElementById('taxa-pessoal').textContent    = `${bancoAtual.taxaPessoal}% a.m.`;
+    document.getElementById('taxa-consignado').textContent = `${bancoAtual.taxaConsignado}% a.m.`;
+    document.getElementById('taxa-imobiliario').textContent= `${bancoAtual.taxaImobiliario}% a.m.`;
     atualizarTaxa();
     calcular();
   }
@@ -486,9 +484,9 @@
 
   function atualizarTaxa() {
     if (!bancoAtual) { taxaAtual = null; return; }
-    if (tipoAtual === 'Pessoal')     taxaAtual = bancoAtual.taxaPessoal;
-    if (tipoAtual === 'Consignado')  taxaAtual = bancoAtual.taxaConsignado;
-    if (tipoAtual === 'Imobiliário') taxaAtual = bancoAtual.taxaImobiliario;
+    if (tipoAtual === 'Pessoal')     taxaAtual = parseFloat(bancoAtual.taxaPessoal);
+    if (tipoAtual === 'Consignado')  taxaAtual = parseFloat(bancoAtual.taxaConsignado);
+    if (tipoAtual === 'Imobiliário') taxaAtual = parseFloat(bancoAtual.taxaImobiliario);
   }
 
   function sincronizarRenda() {
@@ -628,7 +626,7 @@
   }
 
   // INIT
-  carregarBancos();
+  carregarBancoSelecionado();
   calcular();
 </script>
 </body>
