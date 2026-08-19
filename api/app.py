@@ -8,7 +8,7 @@ from flask_cors import CORS
 def create_app():
     app = Flask(__name__)
     CORS(app)
-    app.config['JWT_SECRET_KEY'] = 'designcursos'
+    app.config['JWT_SECRET_KEY'] = 'gui'
     jwt = JWTManager(app)
     app.register_blueprint(usuario_bp)
     app.register_blueprint(banco_bp)

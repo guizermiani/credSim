@@ -2,7 +2,7 @@ from flask import jsonify, request, Blueprint
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from conexao import conecta_db
 from bd.simulacao import listar_simulacoes, consultar_simulacao_por_id, inserir_simulacao, atualizar_simulacao, deletar_simulacao
-
+    
 simulacao_bp = Blueprint("simulacao", __name__, url_prefix="/simulacoes")
 
 
@@ -29,7 +29,7 @@ def get_simulacao(id):
 def salvar_simulacao():
     conexao = conecta_db()
     dados = request.get_json()
-    idUsuario = int(get_jwt_identity())  # vem do token, nunca do front
+    idUsuario = int(get_jwt_identity())
     valorParcela = inserir_simulacao(
         conexao,
         idUsuario,
