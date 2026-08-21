@@ -9,6 +9,8 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
     app.config['JWT_SECRET_KEY'] = 'gui'
+    app.config["JWT_TOKEN_LOCATION"] = ["headers", "query_string"]
+    app.config["JWT_QUERY_STRING_NAME"] = "token"
     jwt = JWTManager(app)
     app.register_blueprint(usuario_bp)
     app.register_blueprint(banco_bp)
