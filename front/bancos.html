@@ -1,177 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CredSim – Comparar Bancos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --green: #1a7a4a; --green-light: #e8f5ee; --dark: #1a1f1e;
-      --border: #e0e0e0; --text-dark: #111; --text-muted: #666; --white: #fff;
-    }
-    body { font-family: 'Inter', sans-serif; background: #f5f5f5; min-height: 100vh; }
-
-    nav {
-      background: var(--white); border-bottom: 1px solid var(--border);
-      padding: 0 2rem; height: 56px; display: flex; align-items: center;
-      justify-content: space-between; position: sticky; top: 0; z-index: 10;
-    }
-    .nav-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; color: var(--text-dark); text-decoration: none; }
-    .nav-logo-icon { width: 32px; height: 32px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .nav-logo-icon svg { stroke: white; }
-    .nav-right { display: flex; gap: 0.75rem; align-items: center; }
-    .btn-nav { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.875rem; font-weight: 500; cursor: pointer; color: var(--text-dark); transition: background 0.15s; text-decoration: none; display: inline-block; }
-    .btn-nav:hover { background: #f0f0f0; }
-    .btn-nav-green { background: var(--green); color: white; border-color: var(--green); }
-    .btn-nav-green:hover { background: #155c38; }
-
-    .page { max-width: 1000px; margin: 2.5rem auto; padding: 0 1.5rem; }
-    .page-header { margin-bottom: 1.75rem; }
-    .page-header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .page-header p { color: var(--text-muted); font-size: 0.9rem; }
-
-    /* FILTRO TIPO */
-    .tipo-tabs {
-      display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;
-    }
-    .tipo-tab {
-      border: 1.5px solid var(--border); border-radius: 8px;
-      padding: 0.45rem 1rem; font-size: 0.85rem; font-weight: 600;
-      cursor: pointer; background: var(--white); color: var(--text-muted);
-      transition: all 0.15s;
-    }
-    .tipo-tab.active { border-color: var(--green); background: var(--green-light); color: var(--green); }
-
-    /* TABELA */
-    .tabela-wrap { background: var(--white); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 2rem; }
-    table { width: 100%; border-collapse: collapse; }
-    thead { background: #fafafa; }
-    th { padding: 0.85rem 1.25rem; text-align: left; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
-    td { padding: 1rem 1.25rem; font-size: 0.9rem; border-bottom: 1px solid #f0f0f0; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #fafafa; }
-
-    .taxa-val { font-weight: 700; }
-    .taxa-melhor { color: var(--green); }
-    .badge-melhor {
-      background: var(--green-light); color: var(--green);
-      font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem;
-      border-radius: 5px; margin-left: 0.4rem;
-    }
-
-    .btn-simular-banco {
-      background: var(--green); color: white; border: none;
-      border-radius: 8px; padding: 0.45rem 0.9rem;
-      font-size: 0.8rem; font-weight: 600; cursor: pointer;
-      transition: background 0.15s; white-space: nowrap;
-    }
-    .btn-simular-banco:hover { background: #155c38; }
-
-    .empty { padding: 3rem; text-align: center; color: var(--text-muted); font-size: 0.9rem; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CredSim Alto Vale – Comparar Bancos</title>
+  <link rel="stylesheet" href="css/bancos.css" />
 </head>
+
 <body>
 
-<nav>
-  <a href="dashboard.html" class="nav-logo">
-    <div class="nav-logo-icon">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
-      </svg>
+  <nav>
+    <a href="dashboard.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polyline points="20 12 20 22 4 22 4 12" />
+          <rect x="2" y="7" width="20" height="5" />
+          <line x1="12" y1="22" x2="12" y2="7" />
+          <path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z" />
+          <path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z" />
+        </svg>
+      </div>
+      CredSim Alto Vale
+    </a>
+    <div class="nav-right">
+      <a href="simulacao.html" class="btn-nav btn-nav-green">Nova simulação</a>
+      <button class="btn-nav" onclick="sair()">Sair</button>
     </div>
-    CredSim
-  </a>
-  <div class="nav-right">
-    <a href="simulacao.html" class="btn-nav btn-nav-green">Nova simulação</a>
-    <button class="btn-nav" onclick="sair()">Sair</button>
+  </nav>
+
+  <div class="page">
+    <div class="page-header">
+      <h1>Comparar bancos</h1>
+      <p>Compare as taxas de juros entre as instituições e cooperativas parceiras do Alto Vale.</p>
+    </div>
+
+    <div class="tipo-tabs">
+      <button class="tipo-tab active" onclick="filtrar('Pessoal', this)">Crédito Pessoal</button>
+      <button class="tipo-tab" onclick="filtrar('Consignado', this)">Consignado</button>
+      <button class="tipo-tab" onclick="filtrar('Imobiliário', this)">Imobiliário</button>
+    </div>
+
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Banco</th>
+            <th>Taxa mensal</th>
+            <th>Taxa anual (aprox.)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tabelaBody">
+          <tr>
+            <td colspan="4" class="empty">Carregando...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</nav>
 
-<div class="page">
-  <div class="page-header">
-    <h1>Comparar bancos</h1>
-    <p>Compare as taxas de juros entre as instituições cadastradas.</p>
-  </div>
+  <script>
+    const API = 'http://127.0.0.1:5000';
+    let bancos = [];
+    let tipoAtual = 'Pessoal';
 
-  <div class="tipo-tabs">
-    <button class="tipo-tab active" onclick="filtrar('Pessoal', this)">Crédito Pessoal</button>
-    <button class="tipo-tab" onclick="filtrar('Consignado', this)">Consignado</button>
-    <button class="tipo-tab" onclick="filtrar('Imobiliário', this)">Imobiliário</button>
-  </div>
+    function checarLogin() {
+      if (!localStorage.getItem('token')) window.location.href = 'index.html';
+    }
 
-  <div class="tabela-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Banco</th>
-          <th>Taxa mensal</th>
-          <th>Taxa anual (aprox.)</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="tabelaBody">
-        <tr><td colspan="4" class="empty">Carregando...</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+    async function carregarBancos() {
+      const token = localStorage.getItem('token');
+      try {
+        const res = await fetch(`${API}/bancos/`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        bancos = await res.json();
+        renderTabela();
+      } catch (e) {
+        document.getElementById('tabelaBody').innerHTML = '<tr><td colspan="4" class="empty">Erro ao carregar bancos.</td></tr>';
+      }
+    }
 
-<script>
-  const API = 'http://127.0.0.1:5000';
-  let bancos = [];
-  let tipoAtual = 'Pessoal';
-
-  function checarLogin() {
-    if (!localStorage.getItem('token')) window.location.href = 'index.html';
-  }
-
-  async function carregarBancos() {
-    const token = localStorage.getItem('token');
-    try {
-      const res = await fetch(`${API}/bancos/`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      bancos = await res.json();
+    function filtrar(tipo, btn) {
+      tipoAtual = tipo;
+      document.querySelectorAll('.tipo-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
       renderTabela();
-    } catch(e) {
-      document.getElementById('tabelaBody').innerHTML = '<tr><td colspan="4" class="empty">Erro ao carregar bancos.</td></tr>';
-    }
-  }
-
-  function filtrar(tipo, btn) {
-    tipoAtual = tipo;
-    document.querySelectorAll('.tipo-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    renderTabela();
-  }
-
-  function taxaPorTipo(b) {
-    if (tipoAtual === 'Pessoal')     return b.taxaPessoal;
-    if (tipoAtual === 'Consignado')  return b.taxaConsignado;
-    if (tipoAtual === 'Imobiliário') return b.taxaImobiliario;
-    return 0;
-  }
-
-  function renderTabela() {
-    const body = document.getElementById('tabelaBody');
-    if (!bancos.length) {
-      body.innerHTML = '<tr><td colspan="4" class="empty">Nenhum banco cadastrado.</td></tr>';
-      return;
     }
 
-    const ordenados = [...bancos].sort((a, b) => taxaPorTipo(a) - taxaPorTipo(b));
-    const melhorTaxa = taxaPorTipo(ordenados[0]);
+    function taxaPorTipo(b) {
+      if (tipoAtual === 'Pessoal') return b.taxaPessoal;
+      if (tipoAtual === 'Consignado') return b.taxaConsignado;
+      if (tipoAtual === 'Imobiliário') return b.taxaImobiliario;
+      return 0;
+    }
 
-    body.innerHTML = '';
-    ordenados.forEach(b => {
-      const taxa = taxaPorTipo(b);
-      const taxaAnual = (Math.pow(1 + taxa / 100, 12) - 1) * 100;
-      const melhor = taxa === melhorTaxa;
+    function renderTabela() {
+      const body = document.getElementById('tabelaBody');
+      if (!bancos.length) {
+        body.innerHTML = '<tr><td colspan="4" class="empty">Nenhum banco cadastrado.</td></tr>';
+        return;
+      }
 
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
+      const ordenados = [...bancos].sort((a, b) => taxaPorTipo(a) - taxaPorTipo(b));
+      const melhorTaxa = taxaPorTipo(ordenados[0]);
+
+      body.innerHTML = '';
+      ordenados.forEach(b => {
+        const taxa = taxaPorTipo(b);
+        const taxaAnual = (Math.pow(1 + taxa / 100, 12) - 1) * 100;
+        const melhor = taxa === melhorTaxa;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
         <td><strong>${b.nome}</strong></td>
         <td>
           <span class="taxa-val ${melhor ? 'taxa-melhor' : ''}">${taxa}% a.m.</span>
@@ -184,22 +127,23 @@
           </button>
         </td>
       `;
-      body.appendChild(tr);
-    });
-  }
-
-  function simularComBanco(idBanco) {
-    const banco = bancos.find(b => b.idBanco === idBanco);
-    if (banco) {
-      localStorage.setItem('bancoSelecionado', JSON.stringify(banco));
-      window.location.href = 'simulacao.html';
+        body.appendChild(tr);
+      });
     }
-  }
 
-  function sair() { localStorage.clear(); window.location.href = 'index.html'; }
+    function simularComBanco(idBanco) {
+      const banco = bancos.find(b => b.idBanco === idBanco);
+      if (banco) {
+        localStorage.setItem('bancoSelecionado', JSON.stringify(banco));
+        window.location.href = 'simulacao.html';
+      }
+    }
 
-  checarLogin();
-  carregarBancos();
-</script>
+    function sair() { localStorage.clear(); window.location.href = 'index.html'; }
+
+    checarLogin();
+    carregarBancos();
+  </script>
 </body>
+
 </html>

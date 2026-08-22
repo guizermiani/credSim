@@ -3,140 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CredSim – Entrar</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --green:      #1a7a4a;
-      --green-light:#e8f5ee;
-      --dark:       #1a1f1e;
-      --border:     #e0e0e0;
-      --text-dark:  #111;
-      --text-muted: #666;
-      --white:      #fff;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f5f5f5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    nav {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      height: 56px;
-      display: flex;
-      align-items: center;
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--text-dark);
-      text-decoration: none;
-    }
-    .nav-logo-icon {
-      width: 32px; height: 32px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .nav-logo-icon svg { stroke: white; }
-
-    .page {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-
-    .card {
-      background: var(--white);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .card-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-    .card-sub {
-      color: var(--text-muted);
-      font-size: 0.875rem;
-      margin-bottom: 2rem;
-    }
-
-    .campo { margin-bottom: 1.25rem; }
-    .label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-      display: block;
-    }
-    .input {
-      width: 100%;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 0.7rem 0.9rem;
-      font-size: 0.95rem;
-      font-family: inherit;
-      color: var(--text-dark);
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    .input:focus { border-color: var(--green); }
-
-    .btn-entrar {
-      width: 100%;
-      background: var(--green);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 0.85rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.15s;
-      margin-top: 0.5rem;
-    }
-    .btn-entrar:hover { background: #155c38; }
-
-    .erro {
-      background: #fee2e2;
-      color: #b91c1c;
-      border-radius: 8px;
-      padding: 0.65rem 0.9rem;
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-      display: none;
-    }
-
-    .cadastro {
-      text-align: center;
-      margin-top: 1.25rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    .cadastro a {
-      color: var(--green);
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .cadastro a:hover { text-decoration: underline; }
-  </style>
+  <title>CredSim Alto Vale – Entrar</title>
+  <link rel="stylesheet" href="css/admin.css" />
 </head>
 <body>
 <nav>
@@ -146,14 +14,14 @@
         <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
       </svg>
     </div>
-    CredSim
+    CredSim Alto Vale
   </a>
 </nav>
 
 <div class="page">
   <div class="card">
     <div class="card-title">Entrar na sua conta de Admin</div>
-    <div class="card-sub">Digite seu usuário e senha para continuar.</div>
+    <div class="card-sub">Digite seu usuário e senha para gerenciar taxas de crédito do Alto Vale.</div>
 
     <div class="erro" id="erro">Usuário ou senha inválidos.</div>
 

@@ -98,7 +98,7 @@ def exportar_excel(id):
              "Prazo (meses)", "Taxa (% a.m.)", "Renda", "Parcela"]]
 
     buffer = io.BytesIO()
-    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:   
         df.to_excel(writer, index=False, sheet_name="Simulação")
 
     buffer.seek(0)

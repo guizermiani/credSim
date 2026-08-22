@@ -3,107 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CredSim – Dashboard</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --green: #1a7a4a; --green-light: #e8f5ee; --dark: #1a1f1e;
-      --border: #e0e0e0; --text-dark: #111; --text-muted: #666; --white: #fff;
-    }
-    body { font-family: 'Inter', sans-serif; background: #f5f5f5; min-height: 100vh; }
-
-    nav {
-      background: var(--white); border-bottom: 1px solid var(--border);
-      padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 10;
-    }
-    .nav-logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.1rem; color: var(--text-dark); text-decoration: none; }
-    .nav-logo-icon { width: 32px; height: 32px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .nav-logo-icon svg { stroke: white; }
-    .nav-right { display: flex; gap: 0.75rem; align-items: center; }
-    .nav-nome { font-size: 0.875rem; color: var(--text-muted); }
-    .btn-nav { background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 1rem; font-size: 0.875rem; font-weight: 500; cursor: pointer; color: var(--text-dark); transition: background 0.15s; }
-    .btn-nav:hover { background: #f0f0f0; }
-    .btn-nav-green { background: var(--green); color: white; border-color: var(--green); }
-    .btn-nav-green:hover { background: #155c38; }
-
-    .page { max-width: 1000px; margin: 2.5rem auto; padding: 0 1.5rem; }
-
-    .boas-vindas { margin-bottom: 2rem; }
-    .boas-vindas h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.25rem; }
-    .boas-vindas p { color: var(--text-muted); font-size: 0.95rem; }
-
-    .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
-
-    /* BANCOS */
-    .bancos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-    .banco-card {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 1.25rem;
-      cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .banco-card:hover { border-color: var(--green); box-shadow: 0 2px 12px rgba(26,122,74,0.1); }
-    .banco-card.selected { border-color: var(--green); background: var(--green-light); }
-    .banco-nome { font-weight: 700; font-size: 1rem; margin-bottom: 0.75rem; }
-    .banco-taxas { display: flex; flex-direction: column; gap: 0.3rem; }
-    .taxa-row { display: flex; justify-content: space-between; font-size: 0.8rem; }
-    .taxa-row .tipo { color: var(--text-muted); }
-    .taxa-row .val { font-weight: 600; color: var(--green); }
-
-    /* AÇÕES */
-    .acoes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .acao-card {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem;
-      cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      text-decoration: none;
-      color: var(--text-dark);
-      display: block;
-    }
-    .acao-card:hover { border-color: var(--green); box-shadow: 0 2px 12px rgba(26,122,74,0.1); }
-    .acao-icon {
-      width: 40px; height: 40px;
-      background: var(--green-light);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 0.75rem;
-    }
-    .acao-icon svg { stroke: var(--green); }
-    .acao-titulo { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
-    .acao-desc { font-size: 0.8rem; color: var(--text-muted); }
-
-    .btn-simular {
-      width: 100%;
-      background: var(--green);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 0.85rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 2rem;
-      transition: background 0.15s;
-    }
-    .btn-simular:hover { background: #155c38; }
-    .btn-simular:disabled { background: #aaa; cursor: not-allowed; }
-  </style>
+  <title>CredSim Alto Vale – Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 <body>
 
@@ -114,7 +15,7 @@
         <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
       </svg>
     </div>
-    CredSim
+    CredSim Alto Vale
   </a>
   <div class="nav-right">
     <span class="nav-nome" id="navNome"></span>
@@ -126,7 +27,7 @@
 
   <div class="boas-vindas">
     <h1 id="titulo">Olá! 👋</h1>
-    <p>Escolha um banco e simule seu crédito.</p>
+    <p>Escolha um banco ou cooperativa do Alto Vale e simule seu crédito.</p>
   </div>
 
   <div class="section-title">Selecione um banco</div>
@@ -146,8 +47,8 @@
           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
         </svg>
       </div>
-      <div class="acao-titulo">Histórico</div>
-      <div class="acao-desc">Veja e baixe suas simulações anteriores</div>
+      <div class="acao-titulo">Histórico Alto Vale</div>
+      <div class="acao-desc">Veja e baixe suas simulações de crédito locais</div>
     </a>
     <a class="acao-card" href="bancos.html">
       <div class="acao-icon">
@@ -155,8 +56,8 @@
           <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
         </svg>
       </div>
-      <div class="acao-titulo">Comparar bancos</div>
-      <div class="acao-desc">Compare taxas entre instituições</div>
+      <div class="acao-titulo">Comparar cooperativas e bancos</div>
+      <div class="acao-desc">Compare taxas locais no Alto Vale</div>
     </a>
   </div>
 

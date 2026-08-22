@@ -5,5 +5,5 @@ def conecta_db():
                         database="credSim",
                         user='root',
                         password="",
-                        port=3306)
+                        port=3306)  
    return con
